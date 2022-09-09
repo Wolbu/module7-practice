@@ -1,7 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import reducer from './rootReducer/rootReducer';
+import reducer from "./rootReducer/rootReducer";
+import { picturesApi } from "./pictures/picturesApi";
+import { setupListeners } from "@reduxjs/toolkit/query";
 
 export const store = configureStore({
-    reducer
-})
+  reducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(picturesApi.middleware),
+});
 
+setupListeners(store.dispatch);

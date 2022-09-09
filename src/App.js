@@ -11,6 +11,7 @@ import {
   addPicturesOperation,
   getImagesOperations,
 } from "./redux/pictures/pictures-operations";
+import { useFetchImagesQuery } from "./redux/pictures/picturesApi";
 
 function App() {
   // const {
@@ -23,6 +24,9 @@ function App() {
   const loader = useSelector(loaderSelector);
   const dispatch = useDispatch();
 
+  const { data, isFetching, isError } = useFetchImagesQuery();
+  console.log(data);
+
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -34,9 +38,10 @@ function App() {
 
   return (
     <div className="App">
-      {loader && <h1>LOADING........</h1>}
+      {isFetching && <h1>LOADING........</h1>}
+      {isError && <h1>Error !! ........</h1>}
       <ul>
-        {images.map((item) => (
+        {data?.hits.map((item) => (
           <li key={nanoid()}>
             <img src={item.webformatURL} width="300" alt="blabla" />
           </li>
